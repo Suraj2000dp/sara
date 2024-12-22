@@ -1,6 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import './styles.css'
 import { Camera, Instagram, Mail, Phone, MapPin, Menu, X } from 'lucide-react';
+import background from '../assets/background.jpeg'
+import img1 from '../assets/img1.jpeg'
+import img2 from '../assets/img2.jpeg'
+import img3 from '../assets/img3.jpeg'
+import img4 from '../assets/img4.jpeg'
+import img5 from '../assets/img5.jpeg'
+import img6 from '../assets/img6.jpeg'
+import img7 from '../assets/img7.jpeg'
+import img8 from '../assets/img8.jpeg'
+import img9 from '../assets/img9.jpeg'
+import img10 from '../assets/img10.jpeg'
+import img11 from '../assets/img11.jpeg'
+import img12 from '../assets/img12.jpeg'
+import logo from '../assets/logo.jpeg'
+
+
+// import background from '../assets/background.jpeg'
+// import background from '../assets/background.jpeg'
+// import background from '../assets/background.jpeg'
+// import background from '../assets/background.jpeg'
+// import background from '../assets/background.jpeg'
+
 
 const PhotographyWebsite = () => {
   // State for mobile menu
@@ -17,11 +39,11 @@ const PhotographyWebsite = () => {
   // State for form submission
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
-
+  const photoArr = [img1, img2, img3, img4, img5, img6, img7, img8, img9, img10, img11, img12]
   // Sample photo data
-  const photos = Array(20).fill(null).map((_, index) => ({
+  const photos = Array(12).fill(null).map((_, index) => ({
     id: index + 1,
-    src: `/api/placeholder/${800 + (index % 3) * 100}/${600 + (index % 2) * 100}`,
+    src: photoArr[index],
     alt: `Sample photo ${index + 1}`
   }));
 
@@ -34,26 +56,108 @@ const PhotographyWebsite = () => {
     }));
   };
 
+  const handleSubmitForm = async (succcallback) => {
+    const message = `${formData.name} || ${formData?.email} || ${formData?.phone} || ${formData?.message}`
+    const TELEGRAM_BOT_TOKEN = '7902360180:AAGqVwOH0Zw6jvCkBCpAzC2tRhcy6npkNXA';
+    const CHAT_ID = '1064998528'; // Replace with your chat ID
+
+    const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: CHAT_ID,
+          text: message,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to send message');
+      }
+      succcallback()
+      alert('Message sent successfully!');
+    } catch (error) {
+      alert('Failed to send message.');
+    }
+  };
+
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    // Simulate API call
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setSubmitSuccess(true);
-      setFormData({ name: '', email: '', phone: '', message: '' });
-      setTimeout(() => setSubmitSuccess(false), 3000);
-    }, 1000);
+    handleSubmitForm(() => {
+      setTimeout(() => {
+        setIsSubmitting(false);
+        setSubmitSuccess(true);
+        setFormData({ name: '', email: '', phone: '', message: '' });
+        setTimeout(() => setSubmitSuccess(false), 3000);
+      }, 1000);
+    })
+
   };
+
+  const services = [
+    {
+      title: "Event Management",
+      description: "Seamlessly organizing and capturing all your special events with a professional touch.",
+      price: ""
+    },
+    {
+      title: "Wedding and Pre-wedding Shoots",
+      description: "Creating timeless memories for your big day and magical pre-wedding moments.",
+      price: "Starts from ₹30,000"
+    },
+    {
+      title: "Baby Photoshoots",
+      description: "Adorable captures that celebrate your baby's precious milestones.",
+      price: "Starts from ₹10,000"
+    },
+    {
+      title: "Maternity Photoshoots",
+      description: "Beautifully portraying the joy and grace of motherhood.",
+      price: "Starts from ₹12,000"
+    },
+    {
+      title: "Candid Photography",
+      description: "Capturing authentic emotions and unposed moments of life.",
+      price: "Starts from ₹8,000"
+    },
+    {
+      title: "Travel and Living Shoots",
+      description: "Showcasing your journeys and lifestyle through stunning visuals.",
+      price: "Custom pricing available"
+    },
+    {
+      title: "Commercial Photography",
+      description: "Delivering high-quality visuals to elevate your brand and business.",
+      price: "Starts from ₹20,000"
+    },
+    {
+      title: "Portraits and Model Photoshoots",
+      description: "Highlighting personalities with artistic and professional portraits.",
+      price: "Starts from ₹15,000"
+    },
+    {
+      title: "Wedding Photography and Videography",
+      description: "Crafting a cinematic story of your wedding day.",
+      price: "Starts from ₹50,000"
+    },
+    {
+      title: "Advertising and Commercial Photography",
+      description: "Creating impactful imagery to enhance your marketing campaigns.",
+      price: "Custom pricing available"
+    }
+  ];
 
   // Auto-scrolling effect for photos
   const [scrollPosition, setScrollPosition] = useState(0);
-  
+
   useEffect(() => {
     const interval = setInterval(() => {
-      setScrollPosition(prev => (prev + 1) % (photos.length * 300));
-    }, 50);
+      setScrollPosition(prev => (prev + 1) % (photos.length * 90));
+    }, 20);
     return () => clearInterval(interval);
   }, [photos.length]);
 
@@ -63,13 +167,13 @@ const PhotographyWebsite = () => {
       <header className="fixed w-full z-50 bg-black/80 text-white">
         <div className="max-w-6xl mx-auto px-4">
           <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-2">
-              <Camera className="w-8 h-8" />
+            <div className="flex items-center space-x-5">
+              <img src={logo} style={{ height: "35px", width: "85px" }} />
               <span className="font-bold text-xl">Capture Moments</span>
             </div>
 
             {/* Mobile Menu Button */}
-            <button 
+            <button
               className="md:hidden"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
@@ -101,9 +205,9 @@ const PhotographyWebsite = () => {
       <div id="home" className="relative h-screen flex items-center justify-center">
         <div className="absolute inset-0">
           <img
-            src="/api/placeholder/1920/1080"
+            src={background}
             alt="Hero background"
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover "
           />
           <div className="absolute inset-0 bg-black/50" />
         </div>
@@ -112,8 +216,8 @@ const PhotographyWebsite = () => {
           <Camera className="mx-auto mb-8 w-16 h-16" />
           <h1 className="text-5xl font-bold mb-4">SARA CREATIONS & EVENTS</h1>
           <p className="text-xl mb-8">
-          Matches are made in heaven. Those heavenly moments live in us. Never let those beautiful moments slip away; 
-          simple moments are memories that not only stay with us but for generations. At Sara Creations and Event Management, we take the responsibility to preserve these memories for ages and showcase them to others.
+            Matches are made in heaven, and we make sure to capture those heavenly moments for you to cherish forever.
+            Sara Creations, we believe in freezing time and turning your memories into treasures that last for generations.
           </p>
           <a href="#contact" className="bg-white text-black px-8 py-3 rounded-full 
             hover:bg-gray-200 transition-colors inline-block">
@@ -121,14 +225,11 @@ const PhotographyWebsite = () => {
           </a>
         </div>
       </div>
-
-      {/* About Section */}
       <div id="about" className="bg-white py-20 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl font-bold mb-6">About Us</h2>
           <p className="text-lg text-gray-600 mb-8">
-          we offer services all over India, operating from Karnataka. We provide the best experience through our lenses,
-           always focusing on quality to keep our customers satisfied and happy. Just a call away, no matter where you are, we reach all the way to your doorstep. We incorporate advanced technology to make your events special.
+            Based in Karnataka, we offer photography and videography services across India, ensuring that every moment is captured with love, precision, and the latest technology. We strive to provide the best experience, always focusing on quality and customer satisfaction. No matter where you are, we are just a call away to bring our services directly to your doorstep.
           </p>
         </div>
       </div>
@@ -137,16 +238,16 @@ const PhotographyWebsite = () => {
       <div id="gallery" className="gallery-item relative h-full group overflow-hidden rounded-lg">
         <h2 className="text-4xl font-bold text-center mb-12">Our Portfolio</h2>
         <div className="overflow-hidden">
-          <div 
+          <div
             className="flex transition-transform duration-500 ease-linear"
-            style={{ 
+            style={{
               transform: `translateX(-${scrollPosition}px)`,
               width: `${photos.length * 300}px`
             }}
           >
             {photos.map((photo) => (
-              <div 
-                key={photo.id} 
+              <div
+                key={photo.id}
                 className="w-72 h-72 flex-shrink-0 p-2"
               >
                 <div className="relative h-full group overflow-hidden rounded-lg">
@@ -154,23 +255,38 @@ const PhotographyWebsite = () => {
                     src={photo.src}
                     alt={photo.alt}
                     className="w-full h-full object-cover transition-transform 
-                      duration-300 group-hover:scale-110"
+                      duration-300 group-hover:scale-120"
                   />
-                  <div className="absolute inset-0 bg-black/60 opacity-0 
-                    group-hover:opacity-100 transition-opacity duration-300 
-                    flex items-center justify-center">
-                    <button className="bg-white text-black px-6 py-2 rounded-full 
-                      hover:bg-gray-200 transition-colors">
-                      View Photo
-                    </button>
-                  </div>
+
                 </div>
               </div>
             ))}
           </div>
         </div>
       </div>
+      <div id="services" className="py-20 px-4 bg-gray-50">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-4xl font-bold text-center mb-12">Our Services</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {services.map((service, index) => (
+              <div
+                key={index}
+                className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+              >
+                <div className="text-center mb-4">
+                  <h3 className="text-xl font-bold mb-2">{service.title}</h3>
+                  <div className="w-12 h-1 bg-black mx-auto"></div>
+                </div>
+                <p className="text-gray-600 mb-4 text-center">
+                  {service.description}
+                </p>
 
+
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
       {/* Contact Section */}
       <div id="contact" className="bg-white py-20 px-4">
         <div className="max-w-6xl mx-auto">
@@ -249,9 +365,9 @@ const PhotographyWebsite = () => {
                   <div className="flex items-start space-x-3">
                     <MapPin className="w-5 h-5 mt-1" />
                     <p>
-                    Sara Creations Mohan Bunglow<br />
-                    out house behind FGC college<br />
-                    oorgaum, Kolar Gold Fields PIN: 563120 
+                      Sara Creations, #5 ARL Building,<br />
+                      BEML Nagar P.O M V Nagar,<br />
+                      Kolar Gold Fields PIN: 563120.
                     </p>
                   </div>
                   <div className="flex items-center space-x-3">
@@ -287,15 +403,16 @@ const PhotographyWebsite = () => {
             <div className="space-y-4">
               <div className="flex items-start space-x-3">
                 <MapPin className="w-5 h-5 mt-1" />
+
                 <p>
-                Sara Creations Mohan Bunglow<br />
-                    out house behind FGC college<br />
-                    oorgaum, Kolar Gold Fields PIN: 563120 
+                  Sara Creations, #5 ARL Building,<br />
+                  BEML Nagar P.O M V Nagar,<br />
+                  Kolar Gold Fields PIN: 563120.
                 </p>
               </div>
               <p className="text-gray-400">
-                Located in the heart of the Creative District, our studio 
-                provides the perfect setting for portrait sessions and 
+                Located in the heart of the Creative District, our studio
+                provides the perfect setting for portrait sessions and
                 client meetings.
               </p>
             </div>
@@ -307,15 +424,18 @@ const PhotographyWebsite = () => {
             <div className="space-y-4">
               <div className="flex items-center space-x-3">
                 <Phone className="w-5 h-5" />
-                <p>9008837262 , 9740573489</p>
+                <p>
+                  <a href='tel:9008837262'>9008837262 </a>
+                  <a href='tel:9740573489'>9740573489 </a>
+                </p>
               </div>
               <div className="flex items-center space-x-3">
                 <Mail className="w-5 h-5" />
-                <p>rajkumar.sarala530@gmail.com</p>
+                <a href='mailto:rajkumar.sarala530@gmail.com'>rajkumar.sarala530@gmail.com</a>
               </div>
               <div className="flex items-center space-x-3">
                 <Instagram className="w-5 h-5" />
-                <p>@SaraCreations</p>
+                <a href='https://www.instagram.com/saracreationsevents?igsh=dXR1NHMyNmw4dTJl'>@SaraCreations </a>
               </div>
             </div>
           </div>
