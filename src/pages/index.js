@@ -168,7 +168,7 @@ const PhotographyWebsite = () => {
         <div className="max-w-6xl mx-auto px-4">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-5">
-              <img src={logo} style={{ height: "35px", width: "85px" }} />
+              <img alt='sara' src={logo} style={{ height: "35px", width: "85px" }} />
               <span className="font-bold text-xl">Capture Moments</span>
             </div>
 
