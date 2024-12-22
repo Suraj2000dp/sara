@@ -55,7 +55,7 @@ const PhotographyWebsite = () => {
       setScrollPosition(prev => (prev + 1) % (photos.length * 300));
     }, 50);
     return () => clearInterval(interval);
-  }, []);
+  }, [photos.length]);
 
   return (
     <div className="min-h-screen">
